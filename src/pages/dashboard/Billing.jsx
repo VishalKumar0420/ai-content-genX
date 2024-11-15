@@ -9,7 +9,7 @@ import { restoreUserData } from "../../slices/userSlice";
 
 const Billing = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const { userInfo, token } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
@@ -26,11 +26,9 @@ const Billing = () => {
   const { mutate: createSubscription } = useMutation({
     mutationFn: createSubscriptionApi,
     onSuccess: (subId) => {
-      console.log("subId", subId);
       OnPayment(subId);
     },
     onError: (error) => {
-      console.error("Error creating subscription:", error);
       toast.error("Failed to create subscription");
       setLoading(false);
     },
@@ -41,14 +39,12 @@ const Billing = () => {
     mutationFn: savePaymentApi,
     onSuccess: (response) => {
       if (response?.success) {
-        console.log("Payment success", response.data);
-        dispatch(restoreUserData({token,userInfo:response.data}))
+        dispatch(restoreUserData({ token, userInfo: response.data }));
         toast.success(response?.message);
       }
       setLoading(false);
     },
     onError: (error) => {
-      console.error("Error saving payment:", error);
       toast.error("Payment failed");
       setLoading(false);
     },
@@ -58,6 +54,7 @@ const Billing = () => {
   const OnPayment = (subId) => {
     if (!razorpayLoaded) {
       toast.error("Razorpay is not loaded yet");
+      setLoading(false);
       return;
     }
 
@@ -68,19 +65,36 @@ const Billing = () => {
       description: "AI Content monthly subscriptions",
       handler: async (resp) => {
         console.log(resp);
-        
+
         if (!resp?.razorpay_payment_id) {
-          console.log("Payment ID not found in the response!");
+          setLoading(false);
           return;
         }
-        const paymentId=resp?.razorpay_payment_id
+        const paymentId = resp?.razorpay_payment_id;
         console.log(paymentId);
-        
-        savePayment({token,paymentId});
+
+        savePayment({ token, paymentId });
+      },
+      modal: {
+        ondismiss: () => {
+          toast.error("Payment was cancelled");
+          setLoading(false); 
+        },
+      },
+      prefill: {
+        name: userInfo?.name,
+        email: userInfo?.email,
+      },
+      theme: {
+        color: "#1A222C",
       },
     };
 
     const rzp = new window.Razorpay(options);
+    rzp.on("payment.failed", function (response) {
+      toast.error("Payment failed. Please try again.");
+      setLoading(false); 
+    });
     rzp.open();
   };
 
@@ -96,7 +110,9 @@ const Billing = () => {
           <h2 className="font-bold text-2xl">Upgrade with Unlimited Plan</h2>
         </div>
         <div className={`flex md:flex-row flex-col gap-10`}>
-          <div className={`border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-10 rounded-lg  flex flex-col gap-4 items-center`}>
+          <div
+            className={`border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-10 rounded-lg  flex flex-col gap-4 items-center`}
+          >
             <span className=" text-xl">Free</span>
             <h3 className="font-bold text-3xl ">0₹</h3>
 
@@ -107,12 +123,17 @@ const Billing = () => {
               <li className="">History show</li>
             </ul>
             {!userInfo?.active && (
-              <button className="border border-slate-700 bg-slate-800 text-center py-3 px-5 text-white rounded-3xl cursor-not-allowed" disabled={true}>
+              <button
+                className="border border-slate-700 bg-slate-800 text-center py-3 px-5 text-white rounded-3xl cursor-not-allowed"
+                disabled={true}
+              >
                 Currently Active Plan
               </button>
             )}
           </div>
-          <div className={`border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-10 rounded-lg  flex flex-col gap-4 items-center`}>
+          <div
+            className={`border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-10 rounded-lg  flex flex-col gap-4 items-center`}
+          >
             <span className="text-xl ">Unlimited</span>
             <h3 className="font-bold text-3xl ">9₹ Only</h3>
 
@@ -124,10 +145,14 @@ const Billing = () => {
             </ul>
 
             <button
-              className={`  border border-blue-700  text-center py-3 px-5 rounded-3xl flex gap-3 ${userInfo.active && "bg-slate-800 text-white border-none cursor-not-allowed"}`}
+              className={`  border border-blue-700  text-center py-3 px-5 rounded-3xl flex gap-3 ${
+                userInfo.active &&
+                "bg-slate-800 text-white border-none cursor-not-allowed"
+              }`}
               onClick={handleCreateSubscription}
             >
-              {loading && <Loader2Icon className="animate-spin" />} {!userInfo?.active ? "Get Started" : "Currently Active Plan"}
+              {loading && <Loader2Icon className="animate-spin" />}{" "}
+              {!userInfo?.active ? "Get Started" : "Currently Active Plan"}
             </button>
           </div>
         </div>

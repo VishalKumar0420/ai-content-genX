@@ -60,6 +60,8 @@ const Content = (props) => {
       setAiOutput(data?.data?.aiResponse);
       const totalWords = data?.data?.aiResponse?.split(/\s+/).length;
       const newTotalUsage = Number(totalWordUsage) + totalWords;
+      console.log(newTotalUsage);
+      
       // Dispatch to update total word usage
       dispatch(setTotalWordUsage(newTotalUsage));
     },

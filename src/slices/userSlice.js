@@ -28,7 +28,9 @@ const userSlice = createSlice({
       Cookies.remove('token'); 
     },
     setTotalWordUsage:(state,action)=>{
-        state.totalWordUsage=action.payload.totalWord
+      console.log(action.payload);
+      
+        state.totalWordUsage=action.payload
     },
     restoreUserData: (state, action) => {
         const { userInfo, token } = action.payload;
