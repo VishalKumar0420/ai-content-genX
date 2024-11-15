@@ -55,7 +55,7 @@ const History = () => {
   };
 
   return (
-    <div className=" bg-white dark:border-strokedark dark:bg-boxdark-2 dark:text-white h-[100%] min-h-screen">
+    <div className=" bg-whiten dark:border-strokedark dark:bg-boxdark-2 dark:text-white h-[100%] min-h-screen">
       <div className="flex flex-col gap-4 ml-5 p-5 ">
         <div className="flex flex-col justify-between gap-5 sm:gap-0 sm:flex-row">
           <div>
@@ -106,34 +106,44 @@ const History = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {filteredData?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                      {item?.templateSlugName}
-                    </td>
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      {(item?.aiResponse).substring(0, 51)}...
-                    </td>
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      {new Date(item?.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      {(item?.aiResponse).split(" ").length}
-                    </td>
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-black dark:text-white">
-                      {copyStatus[index] ? (
-                        <Check />
-                      ) : (
-                        <Copy
-                          onClick={() => handleCopy(item?.aiResponse, index)}
-                          className="cursor-pointer"
-                        />
-                      )}
+              {filteredData.length > 0 ? (
+                <tbody>
+                  {filteredData?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                        {item?.templateSlugName}
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        {(item?.aiResponse).substring(0, 51)}...
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        {new Date(item?.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        {(item?.aiResponse).split(" ").length}
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-black dark:text-white">
+                        {copyStatus[index] ? (
+                          <Check />
+                        ) : (
+                          <Copy
+                            onClick={() => handleCopy(item?.aiResponse, index)}
+                            className="cursor-pointer"
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
+                <tbody>
+                  <tr>
+                    <td colSpan={5} className="text-center py-5">
+                      No History yet
                     </td>
                   </tr>
-                ))}
-              </tbody>
+                </tbody>
+              )}
             </table>
           )}
         </div>
