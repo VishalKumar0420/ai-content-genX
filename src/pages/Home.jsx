@@ -13,9 +13,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="">
+    <div className="dark:bg-boxdark-2 h-screen">
       <Header />
-      <div className="dark:bg-boxdark-2 py-10 h-[100vh]">
+      <div className="dark:bg-boxdark-2 py-10">
         <div className="">
           <div className="md:w-[40%] w-full md:mx-auto flex flex-col gap-3 text-center">
             <h1 className="text-3xl dark:text-white font-bold">

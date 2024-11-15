@@ -49,7 +49,7 @@ const Header = () => {
             className="lg:hidden block"
             onClick={() => setIsShowSidebar(!isShowSideBar)}
           >
-            <AlignJustify />
+            <AlignJustify className="dark:text-white"/>
           </div>
         ) : (
           <Link href={"/"}>
@@ -139,7 +139,7 @@ const Header = () => {
                       <div>
                         <ul className="mb-6 flex flex-col gap-1.5">
                           {MenuList?.map((menu, index) => (
-                            <Link to={`${menu.path}`} key={menu.path}>
+                            <Link to={`${menu.path}`} key={menu.path}  onClick={() => setIsShowSidebar(false)}>
                               <div
                                 className={`flex gap-2 mb-2 p-3 text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 rounded-lg cursor-pointer ${
                                   pathname === menu.path &&
@@ -159,7 +159,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="w-full">
-                <UserTrack />
+                <UserTrack setIsShowSidebar={setIsShowSidebar}/>
               </div>
             </aside>
           </div>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const MAX_CREDITS = 10000;
 
-const UserTrack = () => {
+const UserTrack = ({setIsShowSidebar}) => {
   const { totalWordUsage } = useSelector((state) => state.user);
   const navigation = useNavigate();
 
@@ -33,7 +33,7 @@ const UserTrack = () => {
 
       <button
         className="w-full my-3 text-[#7E5FF9] bg-[#f7f7f7] py-2 rounded-lg"
-        onClick={() => navigation("/dashboard/billing")}
+        onClick={() => {navigation("/dashboard/billing"); setIsShowSidebar(false)}}
       >
         Upgrade
       </button>
