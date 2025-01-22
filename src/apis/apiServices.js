@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASEURL = "https://ai-content-generator-backend-i244.onrender.com/api/v1";
+const BASEURL = import.meta.env.VITE_BASEURL;;
 export const signInUser = async (credentials) => {
   const response = await axios.post(`${BASEURL}/users/login`, credentials);
 

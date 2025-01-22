@@ -57,7 +57,7 @@ const Header = () => {
           </Link>
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer">
           {isAuthenticated ? (
             <UserProfile />
           ) : (

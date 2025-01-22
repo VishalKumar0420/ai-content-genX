@@ -123,7 +123,7 @@ const Signup = () => {
         <p className="text-center mt-4">
           Already have an account?{" "}
           <span
-            onClick={() => navigate("/signin")}
+            onClick={() => navigation("/signin")}
             className="text-primary underline cursor-pointer"
           >
             Sign In

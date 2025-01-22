@@ -113,7 +113,7 @@ const SignIn = () => {
           Don't have an account?{" "}
           <span
             onClick={() => navigation("/signup")}
-            className="text-primary underline"
+            className="text-primary underline cursor-pointer"
           >
             Sign Up
           </span>
