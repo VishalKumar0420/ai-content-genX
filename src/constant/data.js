@@ -76,7 +76,7 @@ export const TemplateLists=  [
         aiPrompt: 'Generate top 5 Blog Topic Ideas in bullet point only, (no Description) based on niche in rich text editor format',
         form: [
             {
-                label: 'Enter your Niche',
+                label: 'Enter your here',
                 field: 'input',
                 name: 'niche',
                 required:true
